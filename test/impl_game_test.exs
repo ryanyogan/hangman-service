@@ -75,9 +75,39 @@ defmodule ImplGameTest do
   test "can handle a sequence of moves" do
     [
       ["a", :bad_guess, 6, ["_", "_", "_", "_", "_"], ["a"]],
-      ["a", :bad_guess, 6, ["_", "_", "_", "_", "_"], ["a"]],
+      ["a", :already_used, 6, ["_", "_", "_", "_", "_"], ["a"]],
       ["e", :good_guess, 6, ["_", "e", "_", "_", "_"], ["a", "e"]],
       ["x", :bad_guess, 5, ["_", "e", "_", "_", "_"], ["a", "e", "x"]]
+    ]
+    |> test_sequence_of_moves()
+  end
+
+  test "can handle a winning game" do
+    [
+      ["a", :bad_guess, 6, ["_", "_", "_", "_", "_"], ["a"]],
+      ["a", :already_used, 6, ["_", "_", "_", "_", "_"], ["a"]],
+      ["e", :good_guess, 6, ["_", "e", "_", "_", "_"], ["a", "e"]],
+      ["x", :bad_guess, 5, ["_", "e", "_", "_", "_"], ["a", "e", "x"]],
+      ["h", :good_guess, 5, ["h", "e", "_", "_", "_"], ["a", "e", "h", "x"]],
+      ["l", :good_guess, 5, ["h", "e", "l", "l", "_"], ["a", "e", "h", "l", "x"]],
+      ["x", :already_used, 5, ["h", "e", "l", "l", "_"], ["a", "e", "h", "l", "x"]],
+      ["n", :bad_guess, 4, ["h", "e", "l", "l", "_"], ["a", "e", "h", "l", "n", "x"]],
+      ["o", :won, 4, ["h", "e", "l", "l", "o"], ["a", "e", "h", "l", "n", "o", "x"]]
+    ]
+    |> test_sequence_of_moves()
+  end
+
+  test "can handle a losing game" do
+    [
+      ["a", :bad_guess, 6, ["_", "_", "_", "_", "_"], ["a"]],
+      ["a", :already_used, 6, ["_", "_", "_", "_", "_"], ["a"]],
+      ["e", :good_guess, 6, ["_", "e", "_", "_", "_"], ["a", "e"]],
+      ["r", :bad_guess, 5, ["_", "e", "_", "_", "_"], ["a", "e", "r"]],
+      ["y", :bad_guess, 4, ["_", "e", "_", "_", "_"], ["a", "e", "r", "y"]],
+      ["z", :bad_guess, 3, ["_", "e", "_", "_", "_"], ["a", "e", "r", "y", "z"]],
+      ["p", :bad_guess, 2, ["_", "e", "_", "_", "_"], ["a", "e", "p", "r", "y", "z"]],
+      ["u", :bad_guess, 1, ["_", "e", "_", "_", "_"], ["a", "e", "p", "r", "u", "y", "z"]],
+      ["b", :lost, 0, ["_", "e", "_", "_", "_"], ["a", "b", "e", "p", "r", "u", "y", "z"]]
     ]
     |> test_sequence_of_moves()
   end
@@ -93,6 +123,7 @@ defmodule ImplGameTest do
     assert tally.game_state == state
     assert tally.turns_left == turns
     assert tally.letters == letters
+    assert tally.used == used
 
     game
   end
