@@ -15,7 +15,8 @@ defmodule Hangman.Impl.Game do
 
   @spec new_game() :: t()
   def new_game do
-    new_game(Dictionary.random_word())
+    words = Dictionary.start()
+    new_game(Dictionary.random_word(words))
   end
 
   @spec new_game(String.t()) :: t()
@@ -67,7 +68,7 @@ defmodule Hangman.Impl.Game do
 
   ##########################################################
 
-  defp tally(game) do
+  def tally(game) do
     %{
       turns_left: game.turns_left,
       game_state: game.game_state,
@@ -78,6 +79,10 @@ defmodule Hangman.Impl.Game do
 
   defp return_with_tally(game) do
     {game, tally(game)}
+  end
+
+  defp reveal_guessed_letters(game = %{game_state: :lost}) do
+    game.letters
   end
 
   defp reveal_guessed_letters(game) do

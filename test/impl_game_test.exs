@@ -107,7 +107,7 @@ defmodule ImplGameTest do
       ["z", :bad_guess, 3, ["_", "e", "_", "_", "_"], ["a", "e", "r", "y", "z"]],
       ["p", :bad_guess, 2, ["_", "e", "_", "_", "_"], ["a", "e", "p", "r", "y", "z"]],
       ["u", :bad_guess, 1, ["_", "e", "_", "_", "_"], ["a", "e", "p", "r", "u", "y", "z"]],
-      ["b", :lost, 0, ["_", "e", "_", "_", "_"], ["a", "b", "e", "p", "r", "u", "y", "z"]]
+      ["b", :lost, 0, ["h", "e", "l", "l", "o"], ["a", "b", "e", "p", "r", "u", "y", "z"]]
     ]
     |> test_sequence_of_moves()
   end
